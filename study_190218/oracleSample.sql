@@ -7,8 +7,8 @@ CREATE TABLE maker (
 );
 
 
-INSERT INTO maker VALUES ('M001','¸ÞÀÌÄ¿1');
-INSERT INTO maker VALUES ('M002','¸ÞÀÌÄ¿2');
+INSERT INTO maker VALUES ('M001','ë©”ì´ì»¤1');
+INSERT INTO maker VALUES ('M002','ë©”ì´ì»¤2');
 
 
 
@@ -27,9 +27,9 @@ CREATE TABLE product (
 
 
 
-INSERT INTO product VALUES ('0001','»óÇ°1','¸ÞÀÌÄ¿1',100,'½Ä·áÇ°');
-INSERT INTO product VALUES ('0002','»óÇ°2','¸ÞÀÌÄ¿2',200,'½Ä·áÇ°');
-INSERT INTO product VALUES ('0003','»óÇ°3','¸ÞÀÌÄ¿3',1980,'»ýÈ°¿ëÇ°');
+INSERT INTO product VALUES ('0001','ìƒí’ˆ1','ë©”ì´ì»¤1',100,'ì‹ë£Œí’ˆ');
+INSERT INTO product VALUES ('0002','ìƒí’ˆ2','ë©”ì´ì»¤2',200,'ì‹ë£Œí’ˆ');
+INSERT INTO product VALUES ('0003','ìƒí’ˆ3','ë©”ì´ì»¤3',1980,'ìƒí™œìš©í’ˆ');
 
 
 
@@ -50,9 +50,9 @@ CREATE TABLE product2 (
 
 
 
-INSERT INTO product2 VALUES ('0001','»óÇ°1','M001',100,'½Ä·áÇ°');
-INSERT INTO product2 VALUES ('0002','»óÇ°2','M001',200,'½Ä·áÇ°');
-INSERT INTO product2 VALUES ('0003','»óÇ°3','M002',1980,'»ýÈ°¿ëÇ°');
+INSERT INTO product2 VALUES ('0001','ìƒí’ˆ1','M001',100,'ì‹ë£Œí’ˆ');
+INSERT INTO product2 VALUES ('0002','ìƒí’ˆ2','M001',200,'ì‹ë£Œí’ˆ');
+INSERT INTO product2 VALUES ('0003','ìƒí’ˆ3','M002',1980,'ìƒí™œìš©í’ˆ');
 
 
 
@@ -71,10 +71,10 @@ CREATE TABLE product3 (
 
 
 
-INSERT INTO product3 VALUES ('0001','»óÇ°1','M001',100,'½Ä·áÇ°');
-INSERT INTO product3 VALUES ('0002','»óÇ°2','M001',200,'½Ä·áÇ°');
-INSERT INTO product3 VALUES ('0003','»óÇ°3','M002',1980,'»ýÈ°¿ëÇ°');
-INSERT INTO product3 VALUES ('0009','Ãß°¡»óÇ°','M001',300,'½Ä·áÇ°');
+INSERT INTO product3 VALUES ('0001','ìƒí’ˆ1','M001',100,'ì‹ë£Œí’ˆ');
+INSERT INTO product3 VALUES ('0002','ìƒí’ˆ2','M001',200,'ì‹ë£Œí’ˆ');
+INSERT INTO product3 VALUES ('0003','ìƒí’ˆ3','M002',1980,'ìƒí™œìš©í’ˆ');
+INSERT INTO product3 VALUES ('0009','ì¶”ê°€ìƒí’ˆ','M001',300,'ì‹ë£Œí’ˆ');
 
 
 
@@ -107,9 +107,9 @@ CREATE TABLE sample21 (
 
 
 
-INSERT INTO sample21 VALUES (1,'¹ÚÁØ¿ë','1976-10-18','´ë±¸±¤¿ª½Ã ¼ö¼º±¸');
-INSERT INTO sample21 VALUES (2,'±èÀçÁø',NULL,'´ë±¸±¤¿ª½Ã µ¿±¸');
-INSERT INTO sample21 VALUES (3,'È«±æµ¿',NULL,'¼­¿ïÆ¯º°½Ã ¸¶Æ÷±¸');
+INSERT INTO sample21 VALUES (1,'ë°•ì¤€ìš©','1976-10-18','ëŒ€êµ¬ê´‘ì—­ì‹œ ìˆ˜ì„±êµ¬');
+INSERT INTO sample21 VALUES (2,'ê¹€ìž¬ì§„',NULL,'ëŒ€êµ¬ê´‘ì—­ì‹œ ë™êµ¬');
+INSERT INTO sample21 VALUES (3,'í™ê¸¸ë™',NULL,'ì„œìš¸íŠ¹ë³„ì‹œ ë§ˆí¬êµ¬');
 
 
 
@@ -146,9 +146,9 @@ CREATE TABLE sample25 (
 
 
 
-INSERT INTO sample25 VALUES (1,'SQLÀº RDBMS¸¦ Á¶ÀÛÇÏ±â À§ÇÑ ¾ð¾îÀÌ´Ù.');
-INSERT INTO sample25 VALUES (2,'LIKE¿¡¼­´Â ¸ÞÅ¸¹®ÀÚ %¿Í _¸¦ »ç¿ëÇÒ ¼ö ÀÖ´Ù.');
-INSERT INTO sample25 VALUES (3,'LIKE´Â SQL¿¡¼­ »ç¿ëÇÒ ¼ö ÀÖ´Â ¼ú¾î Áß ÇÏ³ªÀÌ´Ù.');
+INSERT INTO sample25 VALUES (1,'SQLì€ RDBMSë¥¼ ì¡°ìž‘í•˜ê¸° ìœ„í•œ ì–¸ì–´ì´ë‹¤.');
+INSERT INTO sample25 VALUES (2,'LIKEì—ì„œëŠ” ë©”íƒ€ë¬¸ìž %ì™€ _ë¥¼ ì‚¬ìš©í•  ìˆ˜ ìžˆë‹¤.');
+INSERT INTO sample25 VALUES (3,'LIKEëŠ” SQLì—ì„œ ì‚¬ìš©í•  ìˆ˜ ìžˆëŠ” ìˆ ì–´ ì¤‘ í•˜ë‚˜ì´ë‹¤.');
 
 
 
@@ -164,9 +164,9 @@ CREATE TABLE sample31 (
 
 
 
-INSERT INTO sample31 VALUES ('A¾¾',36,'´ë±¸±¤¿ª½Ã Áß±¸');
-INSERT INTO sample31 VALUES ('B¾¾',18,'ºÎ»ê±¤¿ª½Ã ¿¬Á¦±¸');
-INSERT INTO sample31 VALUES ('C¾¾',25,'¼­¿ïÆ¯º°½Ã Áß±¸');
+INSERT INTO sample31 VALUES ('Aì”¨',36,'ëŒ€êµ¬ê´‘ì—­ì‹œ ì¤‘êµ¬');
+INSERT INTO sample31 VALUES ('Bì”¨',18,'ë¶€ì‚°ê´‘ì—­ì‹œ ì—°ì œêµ¬');
+INSERT INTO sample31 VALUES ('Cì”¨',25,'ì„œìš¸íŠ¹ë³„ì‹œ ì¤‘êµ¬');
 
 
 
@@ -280,9 +280,9 @@ CREATE TABLE sample35 (
 
 
 
-INSERT INTO sample35 VALUES (1,100,10,'°³');
-INSERT INTO sample35 VALUES (2,230,24,'Åë');
-INSERT INTO sample35 VALUES (3,1980,1,'Àå');
+INSERT INTO sample35 VALUES (1,100,10,'ê°œ');
+INSERT INTO sample35 VALUES (2,230,24,'í†µ');
+INSERT INTO sample35 VALUES (3,1980,1,'ìž¥');
 
 
 
