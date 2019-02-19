@@ -96,11 +96,13 @@
     UPDATE SET 삭제플래그=1 WHERE no=2;
 
     SELECT FROM xxxx WHERE 삭제플래그 <> 1; 로 검색
+	
 
-
-
-
-
+	
+	
+	
+	
+	
 * 집계함수 - 집합(행단위 집합)을 계산하는 함수
   COUNT([ALL|DISTINCT] 집합) - 행 개수 구하기. 모든 자료형 가능
   SUM([ALL|DISTINCT] 집합) - 합계 구하기. 수치형만 가능.
@@ -145,10 +147,13 @@
 
 * MIN·MAX로 최소값·최대값 구하기
   SELECT MIN(quantity), MAX(quantity), MIN(name), MAX(name) FROM sample51;
+  
+  
+  
+  
 
-
-
-
+  
+  
 * 그룹화 - GROUP BY
   SELECT * FROM 테이블명 GROUP BY 열1, 열2, ...
 
@@ -198,9 +203,15 @@
 
 * 복수열의 그룹화
   SELECT name, quantity FROM sample51 GROUP BY name, quantity;
-
-
-
+  
+  
+  
+  
+  
+  
+  
+  
+  
 * 서브쿼리 ★
   (SELECT 명령)
 
@@ -362,8 +373,7 @@
  - IN과 NULL
   IN 은 = 으로 동작함. NULL = NULL 로 계산 안됨.
   NULL은 IS NULL을 사용해서 비교해야 함.
-
-
-
-
-
+  
+  
+  
+  

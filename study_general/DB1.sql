@@ -230,8 +230,13 @@ SELECT 열1, 열2 FROM 테이블명 WHERE 조건식;
 * NULL 값의 정렬순서
   오라클에서는 가장 큰값으로 취급.
   MySQL에서는 가장 작은값으로 취급.
-
-
+  
+  
+  
+  
+  
+  
+  
 * 결과 행 제한하기 - LIMIT
   SELECT 열명 FROM 테이블명 WHERE 조건식 ORDER BY 열명
   LIMIT 행수;
@@ -262,6 +267,7 @@ SELECT 열1, 열2 FROM 테이블명 WHERE 조건식;
 
 * 수치 연산
  - 산술 연산자 : + - * / %
+   오라클에서 나머지 연산은 MOD 함수로 수행함.
 
    우선순위가 같은 경우
     1 - 2 + 3
@@ -318,9 +324,12 @@ SELECT 열1, 열2 FROM 테이블명 WHERE 조건식;
 
   SELECT *, price * quantity AS amount FROM sample34
   ORDER BY amount DESC;
-
-
-
+  
+  
+  
+  
+  
+  
 * 함수
 
 * ROUND 함수 : 반올림
@@ -368,7 +377,8 @@ SELECT 열1, 열2 FROM 테이블명 WHERE 조건식;
 
 * SUBSTRING 함수 - 부분문자열 가져오기
  - 앞 4자리(년도) 추출
-  SUBSTRING('20170125', 1, 4) → '2017'
+  SUBSTRING('20170125', 1, 4) → '2017' -- MySQL
+  SUBSTR('20170125', 1, 4) → '2017'    -- Oracle
 
  - 5째 자리부터 2자리(월) 추출
   SUBSTRING('20170125', 5, 2) → '01'
@@ -383,8 +393,8 @@ SELECT 열1, 열2 FROM 테이블명 WHERE 조건식;
 * CHARACTER_LENGTH 함수
   CHAR_LENTH 함수
   : 문자열 길이 구하기
-  SELECT CHAR_LENGTH(text) FROM sample25;
-
+  SELECT CHAR_LENGTH(text) FROM sample25; -- MySQL
+  SELECT LENGTH(text) FROM sample25;      -- Oracle
 
 
 * 날짜 연산
@@ -402,17 +412,40 @@ SELECT 열1, 열2 FROM 테이블명 WHERE 조건식;
 
 * 날짜의 덧셈과 뺄셈
  - 시스템 날짜의 1일 후를 계산하기
-  SELECT CURRENT_DATE + INTERVAL 1 DAY;
+  SELECT CURRENT_DATE + INTERVAL 1 DAY;  -- MySQL
+  SELECT CURRENT_DATE + INTERVAL '1' DAY FROM dual;  -- Oracle
 
  - 시스템 날짜의 1일 이전을 계산하기
   SELECT CURRENT_DATE - INTERVAL 1 DAY;
+
+  SELECT CURRENT_DATE + INTERVAL '2' MONTH FROM dual;  -- Oracle
+  SELECT CURRENT_TIMESTAMP + INTERVAL '8' HOUR FROM dual;  -- Oracle
+
+
+* 표준 날짜처리
+SELECT TO_TIMESTAMP('2019-01-16 15:00:00', 'YYYY-MM-DD HH24:MI:SS') + INTERVAL '1' SECOND FROM dual;
+SELECT TO_TIMESTAMP('2019-01-16 15:00:00', 'YYYY-MM-DD HH24:MI:SS') + INTERVAL '1' MINUTE FROM dual;
+SELECT TO_TIMESTAMP('2019-01-16 15:00:00', 'YYYY-MM-DD HH24:MI:SS') + INTERVAL '1' HOUR FROM dual;
+SELECT TO_DATE('2019-01-16', 'YYYY-MM-DD') + INTERVAL '1' DAY FROM dual;
+SELECT TO_DATE('2019-01-16', 'YYYY-MM-DD') + INTERVAL '1' MONTH FROM dual;
+SELECT TO_DATE('2019-01-16', 'YYYY-MM-DD') + INTERVAL '1' YEAR FROM dual;
+
+
+
 
 
 * 날짜형 간의 뺄셈
   날짜형 간의 덧셈도 가능하지만 별 의미있는 자료가 아님.
 
-  SELECT DATEDIFF('2017-01-19', '2016-12-25');  - MySQL
-  SELECT '2017-01-19' - '2016-12-25' FROM dual; - Oracle
+  SELECT DATEDIFF('2017-01-19', '2016-12-25');  -- MySQL
+  SELECT TO_DATE('2017-01-19', 'YYYY-MM-DD') - TO_DATE('2017-01-18', 'YYYY-MM-DD') FROM dual; -- Oracle
+
+
+* 나이 계산 (hiredate를 생년월일이라고 가정함)
+SELECT ename, hiredate, FLOOR((CURRENT_DATE - TO_DATE(TO_CHAR(hiredate, 'yyyy'), 'yyyy'))/365) AS age
+FROM emp;
+
+
 
 
 
@@ -488,5 +521,6 @@ SELECT 열1, 열2 FROM 테이블명 WHERE 조건식;
   END   (NULL 확인 올바름)
 
 
-
-
+  
+  
+  
