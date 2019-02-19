@@ -77,7 +77,7 @@ WHERE deptno = 20
 
 SELECT *
 FROM emp
-WHERE ename < 'K%'
+WHERE ename > 'L%'
 ;
 
 
