@@ -1,6 +1,7 @@
-* SQL명령의 종류
+<시험>* SQL명령의 종류
  - DML(Data Manipulation Language) : 데이터 조작
-    SELECT, INSERT, UPDATE, DELETE
+    명령어 : SELECT, INSERT, UPDATE, DELETE
+	명령문 문장 구조 어떻게 생겼는지
 
  - DDL(Data Definition Language) : 데이터 정의
     데이터베이스 객체(object)를 만들거나 삭제하는 명령어.
@@ -9,6 +10,9 @@
 
  - DCL(Data Control Language) : 데이터베이스 제어
     TRANSACTION 제어, 데이터 접근권한 제어
+	명령어 : COMMIT, ROLLBACK
+	
+ 각 명령어들이 어떤 역할인지
 
 
 * 스키마 - 데이터베이스 객체가 만들어지는 공간, 그릇.
@@ -248,7 +252,7 @@
    검색 효율이 좋아진다.
 
 
-* 뷰 : FROM 구에 기술된 서브쿼리에 이름을 붙이고
+* 뷰 : FROM 구에 기술된 서브쿼리에 이름을 붙이고 
        데이터베이스 객체화하여 쓰기 쉽게 한 것.
  - 뷰는 SELECT 명령을 기록하는 데이터베이스 객체!
    복잡한 SELECT 명령을 간략하게 표현하기 위함.

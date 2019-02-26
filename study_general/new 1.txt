@@ -1,0 +1,257 @@
+<시험>* SQL명령의 종류
+ - DML(Data Manipulation Language) : 데이터 조작
+    명령어 : SELECT, INSERT, UPDATE, DELETE
+	명령어들의 문장구조 어떻게 생겼는지
+
+ - DDL(Data Definition Language) : 데이터 정의
+    데이터베이스 객체(object)를 만들거나 삭제하는 명령어.
+    데이터베이스 객체: 테이블, 인덱스, 뷰
+    명령어: CREATE, DROP, ALTER
+
+ - DCL(Data Control Language) : 데이터베이스 제어
+    TRANSACTION 제어, 데이터 접근권한 제어
+	명령어 : COMMIT, ROLLBACK
+	
+ 각 명령어들이 어떤 역할인지
+ 
+ 
+ 
+ 다음 함수들의 역할, 문장구조, 사용법
+ 
+ 
+ SUBSTR
+ 
+ * SUBSTRING 함수 - 부분문자열 가져오기
+ - 앞 4자리(년도) 추출
+  SUBSTRING('20170125', 1, 4) → '2017' -- MySQL
+  SUBSTR('20170125', 1, 4) → '2017'    -- Oracle
+
+ - 5째 자리부터 2자리(월) 추출
+  SUBSTRING('20170125', 5, 2) → '01'
+
+  SELECT SUBSTRING(text, 1, 4) FROM sample25;
+  
+  
+ LIKE
+ 
+ * 패턴 매칭에 의한 검색
+  열명 LIKE '패턴'
+  
+  LIKE에서 사용할 수 있는 메타문자: % _
+    % : 임의의 문자열 (문자가 0개 이상)
+    _ : 임의의 문자 한개
+
+ SELECT * FROM sample25;
+
+ SELECT * FROM sample25 WHERE text LIKE 'SQL%'; (전방일치)
+ SELECT * FROM sample25 WHERE text LIKE '%SQL%';(중간일치)
+ SELECT * FROM sample25 WHERE text LIKE '%SQL'; (후방일치)
+
+
+* 검색패턴 메타문자를 값으로써 검색시:  \%   \_
+ SELECT * FROM sample25 WHERE text LIKE '%\%%';
+ SELECT * FROM sample25 WHERE text LIKE '%\_%';
+ 
+ 
+ ORDER BY
+ 
+ * 정렬 - ORDER BY
+  SELECT 열명 FROM 테이블명 WHERE 조건식 ORDER BY 열명;
+  SELECT 열명 FROM 테이블명 ORDER BY 열명;
+
+  SELECT * FROM sample31;
+
+  - age열의 값을 오름차순으로 정렬하기
+  SELECT * FROM sample31 ORDER BY age;
+
+  - address열로 정렬하기
+  SELECT * FROM sample31 ORDER BY address;
+
+* 오름차순(ASC)과 내림차순(DESC)
+  - age열의 값을 오름차순으로 정렬하기
+  SELECT * FROM sample31 ORDER BY age ASC;
+
+  - age열의 값을 내림차순으로 정렬하기
+  SELECT * FROM sample31 ORDER BY age DESC;
+
+
+* 복수 열을 지정해 정렬하기
+  SELECT * FROM sample32;
+
+ - a열만으로 정렬하기
+  SELECT * FROM sample32 ORDER BY a;
+
+ - a열과 b열로 정렬하기
+  SELECT * FROM sample32 ORDER BY a, b;
+  (값이 같아 순서를 결정할수 없는 경우에는
+   다음으로 지정한 열명을 기준으로 정렬하는 식으로 처리)
+  
+ - b열과 a열로 정렬하기
+  SELECT b, a FROM sample32 ORDER BY b, a;
+
+ - a열을 ASC로 b열을 DESC로 정렬하기
+  SELECT * FROM sample32 ORDER BY a ASC, b DESC;
+
+
+* NULL 값의 정렬순서
+  오라클에서는 가장 큰값으로 취급.
+  MySQL에서는 가장 작은값으로 취급.
+  
+  
+  
+ DISTINCT
+ 
+ * DISTINCT 로 중복 제거하기
+  SELECT name FROM sample51;
+  SELECT ALL name FROM sample51;
+
+  SELECT DISTINCT name FROM sample51;
+
+
+* 집계함수에서 DISTINCT
+ - 중복을 제거한 뒤 개수 구하기
+  SELECT DISTINCT COUNT(name) FROM sample51;  (X)
+  SELECT COUNT(DISTINCT name) FROM sample51;  (O)
+  
+  
+  
+서브쿼리
+
+* 서브쿼리 ★
+  (SELECT 명령)
+
+  SELECT * FROM sample54;
+
+ - a열에 최소값을 가진 행을 삭제
+    SELECT MIN(a) FROM sample54;  
+                  ↓
+    DELETE FROM sample54 WHERE a=20;
+
+ - 서브쿼리 이용
+  DELETE FROM sample54 WHERE a=(SELECT MIN(a) FROM sample54);
+  
+  
+  
+UNION
+
+* UNION 으로 합집합 구하기
+ ○ 합집합: A∪B   UNION
+
+  SELECT * FROM sample71_a;
+  SELECT * FROM sample71_b;
+
+  SELECT * FROM sample71_a
+  UNION
+  SELECT * FROM sample71_b;
+  - 두개의 SELECT 명령을 하나의 명령으로 합침.
+
+    이때 각각의 SELECT 명령의 열 이름은 서로 달라도 되지만
+    열 개수와 자료형은 서로 일치시켜줘야 함.
+
+  SELECT * FROM sample71_a
+  UNION
+  SELECT * FROM sample71_b
+  UNION
+  SELECT * FROM sample31;
+
+  SELECT a FROM sample71_a
+  UNION
+  SELECT b FROM sample71_b
+  UNION
+  SELECT age FROM sample31;
+
+ - UNION으로 묶을때 SELECT문의 나열 순서는 합집합 결과에
+   영향을 주지 않음. 하지만 행의 나열순서는 달라질 수 있음.
+
+
+* UNION을 사용할 때의 ORDER BY
+ - 가장 마지막의 SELECT 명령에 ORDER BY 를 지정함!
+  SELECT a FROM sample71_a
+  UNION
+  SELECT b FROM sample71_b ORDER BY b;   (X)
+
+  SELECT a AS c FROM sample71_a
+  UNION
+  SELECT b AS c FROM sample71_b ORDER BY c;  (O)
+ - ORDER BY 구에 지정하는 열은 별명을 붙여 이름을 일치시킨다!
+
+
+
+* UNION ALL - 중복요소를 제거하지 않고 그냥 합침.
+  SELECT a FROM sample71_a
+  UNION ALL
+  SELECT b FROM sample71_b;
+
+
+
+내부결합/외부결합
+
+* 내부결합
+  SELECT * FROM 상품;
+  SELECT * FROM 재고수;
+
+  SELECT * FROM 상품, 재고수;
+
+ - 상품코드가 같은 행을 검색하기
+  SELECT * FROM 상품, 재고수
+  WHERE 상품.상품코드 = 재고수.상품코드;
+
+
+ - 상품분류가 식료품인 것들의 상품명과 재고수를 검색
+  SELECT 상품.상품명, 재고수.재고수 FROM 상품, 재고수
+  WHERE 상품.상품코드 = 재고수.상품코드   -- ① 결합조건
+  AND 상품.상품분류 = '식료품';           -- ② 검색조건
+
+
+* INNER JOIN 으로 내부결합하기
+  SELECT * FROM 테이블명1 INNER JOIN 테이블명2 ON 결합조건;
+
+  SELECT  상품.상품명, 재고수.재고수
+  FROM 상품 INNER JOIN 재고수
+  ON 상품.상품코드 = 재고수.상품코드
+  WHERE 상품.상품분류 = '식료품';
+
+
+* 상품2 테이블과 메이커 테이블을 내부결합해서
+  상품명, 메이커명을 가져오기
+   SELECT *
+   FROM 상품2, 메이커;
+
+   SELECT s.상품명, m.메이커명
+   FROM 상품2 s INNER JOIN 메이커 m
+   ON s.메이커코드 = m.메이커코드;
+
+
+
+* 외부키 : 다른 테이블의 기본키를 참조하는 열은
+           외부키가 될수 있음.
+  SELECT * FROM 상품2;
+  SELECT * FROM 메이커;
+
+  - 메이커 테이블의 메이커코드 열은
+    상품2 테이블의 메이커코드 열(기본키)을 참조하므로
+    외부키 대상이 될 수 있음.
+
+
+
+* 외부결합
+  : 복수의 테이블 중 어느 한쪽에만 존재하는 데이터행을
+    어떻게 다룰지를 변경할 수 있는 결합 방법
+
+  SELECT * FROM 상품3;
+  SELECT * FROM 재고수;
+
+  SELECT * FROM 상품3, 재고수;
+
+  SELECT 상품3.상품명, 재고수.재고수
+  FROM 상품3 INNER JOIN 재고수
+  ON 상품3.상품코드 = 재고수.상품코드
+  WHERE 상품3.상품분류 = '식료품';
+
+
+ - 외부결합(OUTER JOIN)은 LEFT JOIN 또는 RIGHT JOIN으로 표현
+
+  SELECT 상품3.상품명, 재고수.재고수
+  FROM 상품3 LEFT JOIN 재고수
+  ON 상품3.상품코드 = 재고수.상품코드
+  WHERE 상품3.상품분류 = '식료품';
