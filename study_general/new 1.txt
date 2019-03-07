@@ -1,57 +1,202 @@
-<시험>* SQL명령의 종류
+- SQL명령의 종류
  - DML(Data Manipulation Language) : 데이터 조작
-    명령어 : SELECT, INSERT, UPDATE, DELETE
-	명령어들의 문장구조 어떻게 생겼는지
+    - SELECT : 데이터 조회
+		SELECT A
+		FROM B
+		
+		B테이블의 A값을 조회한다
+    
+	- INSERT : 신규 데이터 삽입
+		INSERT INTO A(B, C, …)
+		VALUES (b, c …);
+		
+		A테이블의 B, C, … 열에 b, c, … 값을 가지는 행을 하나 삽입한다
+	
+	- UPDATE : 기존 데이터 변경
+		UPDATE A
+		SET B
+		WHERE C;
+		
+		A테이블의 C조건에 맞는 데이터를 B의 내용으로 바꾼다
+	
+	- DELETE : 데이터 삭제
+		DELETE FROM A
+		WHERE B;
+		
+		A테이블에서 B와 같은 조건을 가진 데이터를 삭제한다
+		
 
  - DDL(Data Definition Language) : 데이터 정의
     데이터베이스 객체(object)를 만들거나 삭제하는 명령어.
     데이터베이스 객체: 테이블, 인덱스, 뷰
-    명령어: CREATE, DROP, ALTER
+	- CREATE : 
+	- DROP   : 
+	- ALTER  : 
 
  - DCL(Data Control Language) : 데이터베이스 제어
     TRANSACTION 제어, 데이터 접근권한 제어
 	명령어 : COMMIT, ROLLBACK
-	
- 각 명령어들이 어떤 역할인지
- 
- 
- 
- 다음 함수들의 역할, 문장구조, 사용법
- 
- 
- SUBSTR
- 
- * SUBSTRING 함수 - 부분문자열 가져오기
- - 앞 4자리(년도) 추출
-  SUBSTRING('20170125', 1, 4) → '2017' -- MySQL
-  SUBSTR('20170125', 1, 4) → '2017'    -- Oracle
 
- - 5째 자리부터 2자리(월) 추출
-  SUBSTRING('20170125', 5, 2) → '01'
 
-  SELECT SUBSTRING(text, 1, 4) FROM sample25;
+- LIKE
+	WHERE A LIKE 'B' : A열에서 B를 포함하는 값 출력
+
+	- LIKE에서 사용할 수 있는 메타문자
+		_ : 임의의 문자
+		% : 임의의 문자열
+		\ : 메타문자를 값으로써 검색할 경우
+
+		WHERE text LIKE 'SQL%' ; (전방일치)
+		WHERE text LIKE '%SQL%'; (중간일치)
+		WHERE text LIKE '%SQL' ; (후방일치)
+		WHERE text LIKE '%\%%' ; ( % 검색)
+		WHERE text LIKE '%\_%' ; ( _ 검색)
+
+
+- SUBSTR
+	SUBSTR(A, B, C) : A문자열 B번째 단어부터 C번째까지 출력
+
+	SUBSTR('20170125', 1, 4) → '2017'
+	SUBSTR('20170125', 5, 2) → '01'
+	SELECT SUBSTRING(text, 1, 4) FROM sample25;
+
+- DISTINCT
+	SELECT DISTINCT A FROM B : B테이블의 A열에서 중복된 데이터를 삭제 후 출력
+
+	- 집계함수에서 DISTINCT
+		SELECT DISTINCT COUNT(name) FROM sample51;  (X)
+		SELECT COUNT(DISTINCT name) FROM sample51;  (O)
+
+
+
+* SELECT 구와 WHERE 구
+SELECT 열1, 열2 FROM 테이블명 WHERE 조건식;
+
+* SELECT 구에서 열 지정하기
+* WHERE 구에서 행 지정하기
+
+
+* WHERE 구로 no 열 값이 2인 행만 추출
+  SELECT * FROM sample21 WHERE no = 2;
+
+* 조건식  no = 2
+   - no : 열이름
+   - = : 연산자
+   - 2 : 상수
+
+* 비교연산자
+  같다(=), 다르다(<>), 크다(>), 작다(<),
+  크거나 같다(>=), 작거나 같다(<=)
+
+* name 열 값이 '박준용'인 행만 추출
+  SELECT * FROM sample21 WHERE name = '박준용';
+
+* NULL 값 검색
+  SELECT * FROM sample21 WHERE birthday = NULL; (X)
+  SELECT * FROM sample21 WHERE birthday IS NULL; (O)
+
+
+* 조건 조합 (AND, OR, NOT)
+
+* AND 조합
+  조건식1 AND 조건식2
+  모든 조건이 만족하는 경우 조건식은 참이 됨. (그리고)
+
+ - a열과 b열이 모두 0이 아닌 행 검색
+   SELECT * 
+   FROM sample24 
+   WHERE a<>0 
+   AND b<>0;
+
+
+* OR 조합
+  조건식1 OR 조건식2
+  어느 쪽이든 하나만 참이 되면 조건식은 참이 됨. (또는)
+
+  - a열이 0이 아니거나 b열이 0이 아닌 행을 검색
+    SELECT * FROM sample24 WHERE a<>0 OR b<>0;
+
+
+* AND와 OR를 사용할때 주의점
+ SELECT * FROM sample24 WHERE a<>0;
+ SELECT * FROM sample24 WHERE a=1 OR a=2;
+ SELECT * FROM sample24 WHERE a=1 OR 2;  (X)
+
+* AND와 OR를 조합해서 사용할때 연산자 우선순위 주의!
+ - a열이 0이 아니고 b열이 0이 아닌 행을 검색
+  SELECT * FROM sample24 WHERE a<>0 AND b<>0;
+
+ - a열이 1 또는 2이고, b열이 1 또는 2인 행을 검색
+  SELECT * FROM sample24 
+  WHERE a=1 OR a=2 AND b=1 OR b=2;
+
+  AND연산이 OR연산보다 우선순위가 높음!
+
+  SELECT * FROM sample24
+  WHERE (a=1 OR a=2) AND (b=1 OR b=2);
+
+
+* NOT 연산자로 조건식 조합(~아닌, ~외에, ~를 제외한 나머지)
+ - a열이 0이 아니거나 b열이 0이 아닌 행을 제외한
+   나머지 행을 검색
+  SELECT * FROM sample24 WHERE NOT (a<>0 OR b<>0);
   
   
- LIKE
- 
- * 패턴 매칭에 의한 검색
-  열명 LIKE '패턴'
+  * IN - 집합 안의 값이 존재하는지 조사
+  열명 IN (집합)
+
+  SELECT * FROM sample551 WHERE no = 3 OR no = 5;
+
+  SELECT * FROM sample551 WHERE no IN (3, 5);
+
+  SELECT * FROM sample551 WHERE no IN (SELECT no2 FROM sample552);
+
+ - IN과 NULL
+  IN 은 = 으로 동작함. NULL = NULL 로 계산 안됨.
+  NULL은 IS NULL을 사용해서 비교해야 함.
   
-  LIKE에서 사용할 수 있는 메타문자: % _
-    % : 임의의 문자열 (문자가 0개 이상)
-    _ : 임의의 문자 한개
+  
+  
+  
+  * 집계함수 - 집합(행단위 집합)을 계산하는 함수
+  COUNT([ALL|DISTINCT] 집합) - 행 개수 구하기. 모든 자료형 가능
+  SUM([ALL|DISTINCT] 집합) - 합계 구하기. 수치형만 가능.
+  AVG([ALL|DISTINCT] 집합) - 평균 구하기. 수치형만 가능.
+  MIN([ALL|DISTINCT] 집합) - 최소값 구하기. 모든 자료형 가능
+  MAX([ALL|DISTINCT] 집합) - 최대값 구하기. 모든 자료형 가능
 
- SELECT * FROM sample25;
 
- SELECT * FROM sample25 WHERE text LIKE 'SQL%'; (전방일치)
- SELECT * FROM sample25 WHERE text LIKE '%SQL%';(중간일치)
- SELECT * FROM sample25 WHERE text LIKE '%SQL'; (후방일치)
+* COUNT(집합)
+  SELECT * FROM sample51;
+
+  SELECT COUNT(*) FROM sample51;
+
+  SELECT COUNT(*) FROM sample51 WHERE name = 'A';
 
 
-* 검색패턴 메타문자를 값으로써 검색시:  \%   \_
- SELECT * FROM sample25 WHERE text LIKE '%\%%';
- SELECT * FROM sample25 WHERE text LIKE '%\_%';
- 
+* 집계함수와 NULL값
+  SELECT COUNT(no), COUNT(name) FROM sample51;
+ - 집계함수는 집함 안에 NULL 값이 있을 경우 무시한다!
+
+
+* DISTINCT 로 중복 제거하기
+  SELECT name FROM sample51;
+  SELECT ALL name FROM sample51;
+
+  SELECT DISTINCT name FROM sample51;
+
+* SUM으로 합계 구하기
+  SELECT SUM(quantity) FROM sample51;
+
+
+* AVG로 평균내기
+  SELECT AVG(quantity), SUM(quantity)/COUNT(quantity) FROM sample51;
+
+
+* MIN·MAX로 최소값·최대값 구하기
+  SELECT MIN(quantity), MAX(quantity), MIN(name), MAX(name) FROM sample51;
+  
+
  
  ORDER BY
  
@@ -74,7 +219,6 @@
   - age열의 값을 내림차순으로 정렬하기
   SELECT * FROM sample31 ORDER BY age DESC;
 
-
 * 복수 열을 지정해 정렬하기
   SELECT * FROM sample32;
 
@@ -92,28 +236,48 @@
  - a열을 ASC로 b열을 DESC로 정렬하기
   SELECT * FROM sample32 ORDER BY a ASC, b DESC;
 
-
 * NULL 값의 정렬순서
   오라클에서는 가장 큰값으로 취급.
   MySQL에서는 가장 작은값으로 취급.
   
   
   
- DISTINCT
+ * 뷰 : FROM 구에 기술된 서브쿼리에 이름을 붙이고 
+       데이터베이스 객체화하여 쓰기 쉽게 한 것.
+ - 뷰는 SELECT 명령을 기록하는 데이터베이스 객체!
+   복잡한 SELECT 명령을 간략하게 표현하기 위함.
+
+ - 뷰는 가상 테이블 : 실체(저장공간)가 존재하지 않음.
+   SELECT 명령에서만 사용. INSERT, UPDATE, DELETE는 사용불가.
+
+  SELECT * FROM (SELECT * FROM sample54) sq;
+
+  SELECT * FROM sample_view_67;
+
+
+* 뷰의 작성
+  CREATE VIEW 뷰명 AS SELECT명령;
+
+  CREATE VIEW sample_view_67 AS SELECT * FROM sample54;
+
+  SELECT * FROM sample_view_67;
+
+
+ - 열을 지정해 뷰 작성하기
+  CREATE VIEW 뷰명 (열명1, 열명2, ...) AS SELECT명령;
+
+  CREATE VIEW sample_view_672 (n, v, v2) AS
+      SELECT no, a, a*2 FROM sample54;
+
+  SELECT * FROM sample_view_672 WHERE n = 1;
+  
+
+* 뷰의 삭제
+  DROP VIEW 뷰명;
+
+* 테이블이 삭제되면 그와 연관된 인덱스, 뷰도 자동 삭제됨.
+  
  
- * DISTINCT 로 중복 제거하기
-  SELECT name FROM sample51;
-  SELECT ALL name FROM sample51;
-
-  SELECT DISTINCT name FROM sample51;
-
-
-* 집계함수에서 DISTINCT
- - 중복을 제거한 뒤 개수 구하기
-  SELECT DISTINCT COUNT(name) FROM sample51;  (X)
-  SELECT COUNT(DISTINCT name) FROM sample51;  (O)
-  
-  
   
 서브쿼리
 
