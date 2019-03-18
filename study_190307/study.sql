@@ -201,3 +201,113 @@ SELECT
     AVG(orders.saleprice)
 FROM
     orders; 
+    
+-- 박지성이 구매한 도서의 출판사와 같은 출판사에서 도서를 구매한 고객의 이름
+SELECT
+    DISTINCT customer.name
+FROM
+    book, customer, orders
+WHERE
+    customer.custid = orders.custid
+AND
+    orders.bookid = book.bookid
+AND
+    customer.name NOT LIKE '%박지성%'
+AND
+    book.publisher IN(
+    SELECT
+        book.publisher
+    FROM
+        book, customer, orders
+    WHERE
+        customer.custid = orders.custid
+    AND
+        orders.bookid = book.bookid
+    AND
+        customer.name LIKE '%박지성%');
+
+-- 두 개 이상의 서로 다른 출판사에서 도서를 구매한 고객의 이름
+SELECT
+    c1.name
+FROM
+    customer c1
+WHERE
+    2 >= (
+    SELECT
+        COUNT(DISTINCT publisher)
+    FROM
+        customer, orders, book
+    WHERE
+        customer.custid = orders.custid
+    AND
+        orders.bookid = book. bookid
+    AND
+        (name LIKE c1.name));
+
+-- 전체 고객의 30% 이상이 구매한 도서
+SELECT
+    bookname
+FROM
+    book b1
+WHERE
+    ((
+    SELECT
+        COUNT(book.bookid)
+    FROM
+        book, orders
+    WHERE
+        book.bookid = orders.bookid
+    AND
+        book.bookid = b1.bookid)
+    >= 0.3 * (
+    SELECT
+        COUNT(*)
+    FROM
+        customer));
+
+-- 새로운 도서 (‘스포츠 세계’, ‘대한미디어’, 10000원)이 마당서점에 입고되었다(삽입이 안 될 경우 필요한 데이터가 더 있는지 찾아보자)
+INSERT INTO
+    book(bookid, bookname, publisher, price)
+VALUES
+    (11, '스포츠 세계', '대한미디어', 10000);
+-- 11(bookid)는 기본키이므로 null값을 줄 수 없다
+
+-- ‘삼성당’에서 출판한 도서를 삭제해야 한다.
+DELETE FROM
+    book
+WHERE
+    publisher LIKE '삼성당';
+
+-- ‘이상미디어’에서 출판한 도서를 삭제해야 한다. 삭제가 안 될 경우 원인을 생각해보자.
+DELETE FROM
+    book
+WHERE
+    publisher LIKE '이상미디어';
+    
+SELECT
+    constraint_name, table_name, r_constraint_name
+FROM
+    user_constraints
+WHERE
+    constraint_name = 'SYS_C007016';
+-- orders 테이블에서 bookid 열의 데이터를 외래키(제약조건)로 참조하고 있기 때문에 삭제할 수 없다
+-- orders의 bookid를 선조치 후 삭제를 시도해야 한다
+
+ALTER TABLE
+    orders
+DROP
+    PRIMARY KEY;
+    
+ALTER TABLE
+    orders
+DROP CONSTRAINT
+    SYS_C007016;
+
+    
+-- 출판사 ‘대한미디어’가 ‘대한출판사’로 이름을 바꾸었다.
+UPDATE
+    book
+SET
+    publisher = '대한출판사'
+WHERE
+    publisher LIKE '대한미디어'
