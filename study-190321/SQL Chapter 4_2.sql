@@ -44,4 +44,40 @@ SELECT
 FROM
     mybook;
     
+SELECT
+    custid, (
+    SELECT
+        address
+    FROM
+        customer cs
+    WHERE
+        cs.custid = od.custid) "address",
+    SUM(saleprice) "total"
+FROM
+    Orders od
+GROUP BY
+    od.custid, custid;
     
+SELECT
+    cs.name, s
+FROM
+    (SELECT
+        custid, AVG(saleprice) s
+    FROM
+        orders
+    GROUP BY
+        custid) od, customer cs
+WHERE cs.custid = od.custid;
+
+SELECT
+    SUM(saleprice) "total"
+FROM
+    orders od
+WHERE
+    EXISTS(
+        SELECT
+            *
+        FROM
+            customer cs
+        WHERE
+            custid <= 3 AND cs.custid = od.custid);
