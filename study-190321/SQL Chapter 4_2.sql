@@ -81,3 +81,33 @@ WHERE
             customer cs
         WHERE
             custid <= 3 AND cs.custid = od.custid);
+
+DROP VIEW
+    highorders;
+           
+CREATE VIEW
+    highorders
+AS SELECT
+    book.bookid, book.bookname, customer.name, book.publisher, orders.saleprice
+FROM
+    book, customer, orders
+WHERE
+    book.bookid = orders.bookid AND
+    orders.custid = customer.custid AND
+    orders.saleprice >= 20000;
+    
+SELECT
+    bookname, name
+FROM
+    highorders;
+    
+-- ºä´Â ALTER°¡ ¸ÔÈ÷Áö ¾ÊÀ½
+CREATE OR REPLACE VIEW
+    highorders
+AS SELECT
+    DISTINCT(book.bookid), book.bookname, customer.name, book.publisher
+FROM
+    book, customer, orders
+WHERE
+    book.bookid = orders.bookid AND
+    orders.custid = customer.custid;
